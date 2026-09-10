@@ -1,0 +1,17 @@
+[project]
+name = "deep-learning-models-from-scratch"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "genericmaster", email = "rakhivhanithendo@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+deep-learning-models-from-scratch = "deep_learning_models_from_scratch:main"
+
+[build-system]
+requires = ["uv_build>=0.12.2,<0.13.0"]
+build-backend = "uv_build"
