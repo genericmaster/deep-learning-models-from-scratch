@@ -166,11 +166,6 @@ class CodingModel(pt.nn.Module):
 
                 for i in range(0, len(chunks) - batch_size, batch_size):
                     batch = pt.stack(chunks[i:i+batch_size]).to(device)
-                    batch_count += 1
-
-                    if batch_count % 500 == 0:
-                        print(f'batch: {batch_count}, loss: {loss.item():.4f}')
-
                     decoder_input_batch = batch[:, :-1]
                     labels_batch = batch[:, 1:]
                     optimizer.zero_grad()
@@ -183,6 +178,5 @@ class CodingModel(pt.nn.Module):
                     loss_track.append(loss.item())
                     loss.backward()
                     optimizer.step()
-                    pt.nn.utils.clip_grad_norm_(self.parameters(), max_norm=1.0)
                     scheduler.step()        
         return loss_track

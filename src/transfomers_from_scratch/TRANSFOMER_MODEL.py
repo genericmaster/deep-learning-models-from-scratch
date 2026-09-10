@@ -1,10 +1,8 @@
 import torch as pt
 device = pt.device('cuda')
-import sys
-sys.path.append(r'C:\THEDO DONT TOUCH\machine learning basics\deep learning\transfomers_from_scratch')
 from ENCODER import Encoder
 from DECODER import DECODER
-from TOKENIZER import tokenizer,InputEmbedding
+from TOKENIZER import InputEmbedding
 
 import os
 class Transformer(pt.nn.Module):
@@ -43,13 +41,8 @@ class Transformer(pt.nn.Module):
         start_epoch=0
 
         for epoch in range(start_epoch,epochs):
-            batch_count = 0
-            for batch_enc, batch_dec, batch_src_mask, batch_trg_mask in zip(encoder_padding, decoder_padding, src_mask, trg_mask):
-                global_step+=1
-                batch_count += 1
-                if batch_count % 500 == 0:
-                    print(f'batch: {batch_count}, loss: {loss.item():.4f}')
 
+            for batch_enc, batch_dec, batch_src_mask, batch_trg_mask in zip(encoder_padding, decoder_padding, src_mask, trg_mask):
                 batch_trg_mask = batch_trg_mask[:, :-1]  # match the decoder input shape
                 decoder_input_batch = batch_dec[:, :-1]
                 labels_batch = batch_dec[:, 1:]
@@ -61,6 +54,4 @@ class Transformer(pt.nn.Module):
                 loss.backward()  
                 optimizer.step()                       
                 scheduler.step()              
-            print(f'epoch: {epoch}  loss: {loss.item():.4f}  lr: {scheduler.get_last_lr()[0]:.6f}')
-        pt.save(self.state_dict(), 'transformer_weights.pt')
         return loss_track
